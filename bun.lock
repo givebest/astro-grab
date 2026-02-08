@@ -20,7 +20,7 @@
     },
     "apps/demo": {
       "name": "demo",
-      "version": "0.1.8",
+      "version": "0.1.9",
       "dependencies": {
         "@astrojs/vercel": "^9.0.2",
         "@tailwindcss/vite": "^4.1.18",
