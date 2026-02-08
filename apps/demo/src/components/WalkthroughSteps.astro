@@ -86,7 +86,9 @@ import ShortcutDisplay from "./ShortcutDisplay.astro";
     if ((window as any).umami) {
       (window as any).umami.track("step-1");
       if (step1Count > 1) {
-        (window as any).umami.track("repeat-walkthrough", { count: step1Count });
+        (window as any).umami.track("repeat-walkthrough", {
+          count: step1Count,
+        });
       }
     }
 

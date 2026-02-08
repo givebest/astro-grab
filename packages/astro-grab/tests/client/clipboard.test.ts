@@ -99,11 +99,12 @@ describe("formatSnippet", () => {
       language: "astro",
     };
 
-    const customTemplate = "File: {{file}}\nLines: {{startLine}}-{{endLine}}\n{{snippet}}";
+    const customTemplate =
+      "File: {{file}}\nLines: {{startLine}}-{{endLine}}\n{{snippet}}";
     const formatted = formatSnippet(data, customTemplate);
 
     expect(formatted).toBe(
-      "File: src/components/Card.astro\nLines: 5-7\n<div>Hello</div>"
+      "File: src/components/Card.astro\nLines: 5-7\n<div>Hello</div>",
     );
   });
 

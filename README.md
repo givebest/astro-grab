@@ -134,20 +134,20 @@ astroGrab({
   template: `File: {{file}}
 Line: {{targetLine}}
 
-{{snippet}}`
-})
+{{snippet}}`,
+});
 ```
 
 **Available variables:**
 
-| Variable | Description | Example |
-|----------|-------------|---------|
-| `{{file}}` | Path to the .astro file | `src/components/Card.astro` |
-| `{{snippet}}` | The extracted code snippet | `<div>...</div>` |
-| `{{startLine}}` | First line of snippet | `12` |
-| `{{endLine}}` | Last line of snippet | `18` |
-| `{{targetLine}}` | The line clicked on | `15` |
-| `{{language}}` | Language identifier | `astro` |
+| Variable         | Description                | Example                     |
+| ---------------- | -------------------------- | --------------------------- |
+| `{{file}}`       | Path to the .astro file    | `src/components/Card.astro` |
+| `{{snippet}}`    | The extracted code snippet | `<div>...</div>`            |
+| `{{startLine}}`  | First line of snippet      | `12`                        |
+| `{{endLine}}`    | Last line of snippet       | `18`                        |
+| `{{targetLine}}` | The line clicked on        | `15`                        |
+| `{{language}}`   | Language identifier        | `astro`                     |
 
 3. Run your dev server:
 

@@ -1,0 +1,14 @@
+@import 'tailwindcss';
+@import 'starlight-theme-nova/tailwind.css';
+
+@theme {
+  /*
+	Configure your Tailwind theme that will be used by Starlight.
+	https://starlight.astro.build/guides/css-and-tailwind/#styling-starlight-with-tailwind
+	*/
+}
+
+/*
+Add additional Tailwind styles to this file:
+https://tailwindcss.com/docs/adding-custom-styles#using-custom-css
+*/

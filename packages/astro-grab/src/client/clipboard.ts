@@ -2,7 +2,7 @@ import { DEFAULT_TEMPLATE, type SnippetResponse } from "../shared/index.js";
 
 export const formatSnippet = (
   data: SnippetResponse,
-  template: string = DEFAULT_TEMPLATE
+  template: string = DEFAULT_TEMPLATE,
 ): string => {
   return template
     .replace(/\{\{file\}\}/g, data.file)

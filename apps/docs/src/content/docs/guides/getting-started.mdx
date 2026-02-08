@@ -1,0 +1,30 @@
+---
+title: Getting Started
+description: Installing and setting up astro-grab 
+---
+
+import { Steps, } from '@astrojs/starlight/components'
+import { CodePackageManagers, Code } from 'starlight-theme-nova/components'
+
+**astro-grab** is a development-time tool which lets you grab code context visually from your Astro app and pass it to AI agents like Claude, Codex, Amp Code, etc.
+
+<Steps>
+1. Install astro-grab using your package manager
+
+   <CodePackageManagers packages="astro-grab" dev={true} />
+
+2. Add astro-grab to your `astro.config.mjs`
+
+   <Code lang="js" title="astro.config.mjs" code={`import { defineConfig } from 'astro/config';
+   import { astroGrab } from 'astro-grab';
+
+   export default defineConfig({
+      integrations: [ 
+        astroGrab() 
+      ]
+    })`}/>
+
+3. You're set! 
+
+   Start your dev server, then astro-grab will instrument your `.astro` components. Press <kbd>cmd</kbd>
+</Steps>

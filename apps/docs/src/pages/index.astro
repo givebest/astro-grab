@@ -1,0 +1,33 @@
+---
+import StarlightPage, {
+  type StarlightPageProps,
+} from "@astrojs/starlight/components/StarlightPage.astro";
+
+const frontmatter: StarlightPageProps["frontmatter"] = {
+  title: "astro-grab | Visual element selection for AI agents",
+  template: "splash",
+  hero: {
+    title: "astro-grab",
+    tagline: "Visual element selection for AI agents",
+    actions: [
+      { link: "/guides/getting-started", text: "Get Started" },
+      {
+        link: "https://github.com/nickradford/astro-grab",
+        text: "GitHub",
+        variant: "secondary",
+        icon: "github",
+      },
+      {
+        link: "https://www.npmjs.com/package/astro-grab",
+        text: "npm",
+        variant: "secondary",
+        icon: "npm",
+      },
+    ],
+  },
+};
+---
+
+<StarlightPage frontmatter={frontmatter}>
+  <h1>Hello</h1>
+</StarlightPage>

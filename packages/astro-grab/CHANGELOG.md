@@ -1,5 +1,11 @@
 # astro-grab
 
+## 0.2.1
+
+### Patch Changes
+
+- Include types in published files
+
 ## 0.2.0
 
 ### Minor Changes
