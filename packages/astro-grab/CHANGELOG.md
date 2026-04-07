@@ -1,5 +1,11 @@
 # astro-grab
 
+## 0.3.0
+
+### Minor Changes
+
+- Add configurable key to trigger astro-grab
+
 ## 0.2.1
 
 ### Patch Changes

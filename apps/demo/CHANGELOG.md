@@ -1,5 +1,12 @@
 # demo
 
+## 0.1.10
+
+### Patch Changes
+
+- Updated dependencies
+  - astro-grab@0.3.0
+
 ## 0.1.9
 
 ### Patch Changes

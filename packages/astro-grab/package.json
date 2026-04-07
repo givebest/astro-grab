@@ -2,7 +2,7 @@
   "name": "astro-grab",
   "description": "Grab context for coding agents directly from your astro site.",
   "homepage": "https://astro-grab.nickradford.dev",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "keywords": [
     "astro",
     "astro-integration",
