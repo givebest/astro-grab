@@ -20,10 +20,7 @@ export const getCurrentShortcutLabel = (): string => {
       ? userAgentData.platform
       : navigator.platform || "unknown";
 
-  return formatPlatformShortcutDisplayLabel(
-    getStoredTriggerKey(),
-    platform,
-  );
+  return formatPlatformShortcutDisplayLabel(getStoredTriggerKey(), platform);
 };
 
 export const onShortcutChange = (

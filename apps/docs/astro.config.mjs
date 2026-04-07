@@ -3,16 +3,14 @@ import { defineConfig } from "astro/config";
 import starlight from "@astrojs/starlight";
 import tailwindcss from "@tailwindcss/vite";
 import { astroGrab } from "astro-grab";
-import starlightThemeNova from 'starlight-theme-nova'
+import starlightThemeNova from "starlight-theme-nova";
 
 // https://astro.build/config
 export default defineConfig({
   integrations: [
     astroGrab(),
     starlight({
-      plugins: [
-        starlightThemeNova()
-      ],
+      plugins: [starlightThemeNova()],
       title: "astro-grab",
       social: [
         {
