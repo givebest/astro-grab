@@ -1,11 +1,80 @@
 ---
 interface Props {
-  title: string;
+  canonicalUrl?: string;
+  description?: string;
+  imageUrl?: string;
+  title?: string;
 }
 
-const { title } = Astro.props;
+import '../styles/global.css';
 
-import "../styles/global.css";
+const siteUrl = Astro.site ?? new URL('https://astro-grab.nickradford.dev');
+const defaultTitle = 'astro-grab - Visual element targeting for Astro';
+const defaultDescription = [
+  'Select any element in your Astro site and copy the exact component',
+  'context for AI coding agents.',
+].join(' ');
+const defaultImageUrl = new URL('/og-image.png', siteUrl).toString();
+
+const {
+  canonicalUrl,
+  description = defaultDescription,
+  imageUrl = defaultImageUrl,
+  title = defaultTitle,
+} = Astro.props;
+
+const canonicalHref =
+  canonicalUrl ?? new URL(Astro.url.pathname, siteUrl).toString();
+const websiteId = new URL('/', siteUrl).toString();
+const webpageId = `${canonicalHref}#webpage`;
+const softwareId = `${websiteId}#software`;
+const imageAlt = 'astro-grab visual element targeting for Astro sites';
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@id': `${websiteId}#website`,
+      '@type': 'WebSite',
+      name: 'astro-grab',
+      url: websiteId,
+      sameAs: [
+        'https://github.com/nickradford/astro-grab',
+        'https://www.npmjs.com/package/astro-grab',
+      ],
+    },
+    {
+      '@id': webpageId,
+      '@type': 'WebPage',
+      description,
+      image: imageUrl,
+      isPartOf: {
+        '@id': `${websiteId}#website`,
+      },
+      name: title,
+      primaryImageOfPage: {
+        '@type': 'ImageObject',
+        url: imageUrl,
+      },
+      url: canonicalHref,
+    },
+    {
+      '@id': softwareId,
+      '@type': 'SoftwareSourceCode',
+      codeRepository: 'https://github.com/nickradford/astro-grab',
+      creator: {
+        '@type': 'Person',
+        name: 'Nick Radford',
+      },
+      description,
+      license: 'https://github.com/nickradford/astro-grab/blob/main/LICENSE',
+      name: 'astro-grab',
+      programmingLanguage: 'TypeScript',
+      runtimePlatform: 'Astro',
+      url: websiteId,
+    },
+  ],
+};
+const jsonLdString = JSON.stringify(jsonLd);
 ---
 
 <!doctype html>
@@ -14,6 +83,24 @@ import "../styles/global.css";
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href={canonicalHref} />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" href="/astro-grab-favicon-512.png" type="image/png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="astro-grab" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalHref} />
+    <meta property="og:image" content={imageUrl} />
+    <meta property="og:image:alt" content={imageAlt} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={imageUrl} />
+    <script type="application/ld+json" set:html={jsonLdString} />
 
     <link
       rel="stylesheet"

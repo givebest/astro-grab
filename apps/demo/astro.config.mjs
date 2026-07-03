@@ -1,13 +1,15 @@
-import { defineConfig } from "astro/config";
-import { astroGrab } from "astro-grab";
+import sitemap from '@astrojs/sitemap';
+import vercel from '@astrojs/vercel';
+import { defineConfig } from 'astro/config';
+import { astroGrab } from 'astro-grab';
 
-import tailwindcss from "@tailwindcss/vite";
-import vercel from "@astrojs/vercel";
+import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [astroGrab()],
-  output: "server",
+  site: 'https://astro-grab.nickradford.dev',
+  integrations: [astroGrab(), sitemap()],
+  output: 'server',
   adapter: vercel(),
   vite: {
     plugins: [tailwindcss()],
