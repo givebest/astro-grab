@@ -63,6 +63,21 @@ const title = "Hello";
     expect(result.code.match(/data-astro-grab=/g)?.length).toBe(3);
   });
 
+  it("should instrument custom elements", async () => {
+    const code = `<my-card>
+  <span>Text</span>
+</my-card>`;
+
+    const result = await instrumentAstroFile(code, "custom-element.astro");
+
+    expect(result.code).toContain(
+      '<my-card data-astro-grab="custom-element.astro:1:1">',
+    );
+    expect(result.code).toContain(
+      '<span data-astro-grab="custom-element.astro:2:3">',
+    );
+  });
+
   it("should normalize Windows paths", async () => {
     const code = `<div>Test</div>`;
 

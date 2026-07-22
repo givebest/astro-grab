@@ -39,7 +39,10 @@ const instrumentAst = (
   const rootToWalk = bodyNode ?? ast;
 
   walkAst(rootToWalk, (node) => {
-    if (node.type !== 'element' || !node.position) {
+    const isInspectableElement =
+      node.type === 'element' || node.type === 'custom-element';
+
+    if (!isInspectableElement || !node.position) {
       return;
     }
 
@@ -47,7 +50,10 @@ const instrumentAst = (
       return;
     }
 
-    if (['body', 'script', 'style'].includes(node.name)) {
+    if (
+      node.type === 'element' &&
+      ['body', 'script', 'style'].includes(node.name)
+    ) {
       return;
     }
 
