@@ -3,7 +3,7 @@
   "changelog": "@changesets/cli/changelog",
   "commit": false,
   "fixed": [],
-  "linked": [["astro-grab"]],
+  "linked": [["@givebest/astro-grab"]],
   "access": "public",
   "baseBranch": "main",
   "updateInternalDependencies": "patch",

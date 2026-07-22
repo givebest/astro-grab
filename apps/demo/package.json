@@ -15,7 +15,7 @@
     "@astrojs/vercel": "^9.0.2",
     "@tailwindcss/vite": "^4.1.18",
     "astro": "^5.0.0",
-    "astro-grab": "workspace:*",
+    "@givebest/astro-grab": "workspace:*",
     "glob": "^10.4.5",
     "tailwindcss": "^4.1.18"
   }

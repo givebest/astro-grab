@@ -2,7 +2,7 @@
 import { defineConfig } from "astro/config";
 import starlight from "@astrojs/starlight";
 import tailwindcss from "@tailwindcss/vite";
-import { astroGrab } from "astro-grab";
+import { astroGrab } from "@givebest/astro-grab";
 import starlightThemeNova from "starlight-theme-nova";
 
 // https://astro.build/config
@@ -21,7 +21,7 @@ export default defineConfig({
         {
           icon: "npm",
           label: "npm",
-          href: "https://www.npmjs.com/package/astro-grab",
+          href: "https://www.npmjs.com/package/@givebest/astro-grab",
         },
       ],
       sidebar: [

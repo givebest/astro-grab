@@ -1,7 +1,7 @@
 import sitemap from '@astrojs/sitemap';
 import vercel from '@astrojs/vercel';
 import { defineConfig } from 'astro/config';
-import { astroGrab } from 'astro-grab';
+import { astroGrab } from '@givebest/astro-grab';
 
 import tailwindcss from '@tailwindcss/vite';
 

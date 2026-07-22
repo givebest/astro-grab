@@ -8,7 +8,7 @@
       "@astro-grab/server": ["../astro-grab-server/src/index.ts"],
       "@astro-grab/client": ["../astro-grab-client/src/index.ts"],
       "@astro-grab/toolbar": ["../astro-grab-toolbar/src/index.ts"],
-      "astro-grab": ["./src/index.ts"]
+      "@givebest/astro-grab": ["./src/index.ts"]
     }
   },
   "include": ["src/**/*"],

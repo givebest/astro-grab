@@ -66,7 +66,7 @@ export const astroGrab = (options: AstroGrabOptions = {}): AstroIntegration => {
           const templateConfig = template
             ? `template: ${JSON.stringify(template)},`
             : "";
-          const script = `import { AstroGrab } from "astro-grab/client";
+          const script = `import { AstroGrab } from "@givebest/astro-grab/client";
 const toolbarStorageKey = ${JSON.stringify(ASTRO_GRAB_TOOLBAR_STORAGE_KEY)};
 const toolbarConfig = (() => {
   try {

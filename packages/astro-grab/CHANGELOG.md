@@ -1,4 +1,10 @@
-# astro-grab
+# @givebest/astro-grab
+
+## 0.3.1
+
+### Patch Changes
+
+- Publish the package under the `@givebest` scope.
 
 ## 0.3.0
 

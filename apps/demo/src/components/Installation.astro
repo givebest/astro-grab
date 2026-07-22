@@ -20,7 +20,7 @@ import { Code } from "astro:components";
             class="p-4"
             lang="sh"
             id="install-cmd"
-            code={`npm install astro-grab`}
+            code={`npm install @givebest/astro-grab`}
           />
           <button
             class="copy-btn absolute top-2 right-2 cursor-pointer border border-orange-500 bg-orange-500 px-3 py-1 text-xs text-white transition-all duration-200 hover:bg-orange-600"
@@ -30,7 +30,7 @@ import { Code } from "astro:components";
         <p class="m-0 text-sm text-gray-400">
           Or use <code
             class="bg-gray-800 px-2 py-1 font-mono text-xs text-white"
-            >bun add astro-grab</code
+            >bun add @givebest/astro-grab</code
           > with Bun.
         </p>
       </div>
@@ -46,7 +46,7 @@ import { Code } from "astro:components";
             class="p-4"
             code={`// astro.config.mjs
 import { defineConfig } from 'astro/config';
-import { astroGrab } from 'astro-grab';
+import { astroGrab } from '@givebest/astro-grab';
 
 export default defineConfig({
   integrations: [

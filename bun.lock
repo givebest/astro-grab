@@ -26,7 +26,7 @@
         "@astrojs/vercel": "^9.0.2",
         "@tailwindcss/vite": "^4.1.18",
         "astro": "^5.0.0",
-        "astro-grab": "workspace:*",
+        "@givebest/astro-grab": "workspace:*",
         "glob": "^10.4.5",
         "tailwindcss": "^4.1.18",
       },
@@ -43,13 +43,13 @@
         "tailwindcss": "^4.0.7",
       },
       "devDependencies": {
-        "astro-grab": "workspace:*",
+        "@givebest/astro-grab": "workspace:*",
         "starlight-theme-nova": "0.11.5",
       },
     },
     "packages/astro-grab": {
-      "name": "astro-grab",
-      "version": "0.3.0",
+      "name": "@givebest/astro-grab",
+      "version": "0.3.1",
       "dependencies": {
         "@astrojs/compiler": "^2.10.0",
       },

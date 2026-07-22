@@ -7,7 +7,7 @@ import { Steps } from '@astrojs/starlight/components';
 import { CodePackageManagers, Code } from 'starlight-theme-nova/components';
 
 export const astroConfigCode = `import { defineConfig } from 'astro/config';
-import { astroGrab } from 'astro-grab';
+import { astroGrab } from '@givebest/astro-grab';
 
 export default defineConfig({
   integrations: [
@@ -23,7 +23,7 @@ Amp Code, etc.
 
 1. Install astro-grab using your package manager
 
-   <CodePackageManagers packages="astro-grab" dev={true} />
+   <CodePackageManagers packages="@givebest/astro-grab" dev={true} />
 
 2. Add astro-grab to your `astro.config.mjs`
 

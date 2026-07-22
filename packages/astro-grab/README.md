@@ -104,14 +104,14 @@ This is a Bun monorepo with the following packages:
 1. Install the integration:
 
 ```bash
-bun add astro-grab
+bun add @givebest/astro-grab
 ```
 
 2. Add to your `astro.config.mjs`:
 
 ```javascript
 import { defineConfig } from "astro/config";
-import { astroGrab } from "astro-grab";
+import { astroGrab } from "@givebest/astro-grab";
 
 export default defineConfig({
   integrations: [

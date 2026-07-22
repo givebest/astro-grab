@@ -18,7 +18,7 @@
     "tailwindcss": "^4.0.7"
   },
   "devDependencies": {
-    "astro-grab": "workspace:*",
+    "@givebest/astro-grab": "workspace:*",
     "starlight-theme-nova": "0.11.5"
   }
 }
