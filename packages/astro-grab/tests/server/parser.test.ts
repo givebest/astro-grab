@@ -29,6 +29,26 @@ const title = "Hello";
     expect(result.code.match(/data-astro-grab=/g)?.length).toBe(3);
   });
 
+  it("should not instrument locked elements or their descendants", async () => {
+    const code = `<main>
+  <section data-astro-edit-policy="locked">
+    <p>Protected</p>
+  </section>
+  <p>Editable</p>
+</main>`;
+
+    const result = await instrumentAstroFile(code, "policy.astro");
+
+    expect(result.code.match(/data-astro-grab=/g)?.length).toBe(2);
+    expect(result.code).not.toContain(
+      'data-astro-grab="policy.astro:2:',
+    );
+    expect(result.code).not.toContain(
+      'data-astro-grab="policy.astro:3:',
+    );
+    expect(result.code).toContain('data-astro-grab="policy.astro:5:');
+  });
+
   it("should not instrument component tags (uppercase)", async () => {
     const code = `<div>
   <MyComponent prop="value" />

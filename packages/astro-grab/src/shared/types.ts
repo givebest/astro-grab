@@ -11,6 +11,19 @@ export const DEFAULT_TEMPLATE = `Source: {{file}}:{{targetLine}}
 /**
  * Represents a source location in a file with line and column information
  */
+export const DEFAULT_EDITOR_POLICY_ATTRIBUTE = "data-astro-edit-policy";
+export const DEFAULT_EDITOR_POLICY_LOCKED_VALUE = "locked";
+export const DEFAULT_EDITOR_POLICY_AREA_ONLY_VALUE = "area-only";
+
+export interface EditorPolicyConfig {
+  /** DOM attribute used to describe the visual editor policy. */
+  attribute?: string;
+  /** Attribute value that disables targeting for the element subtree. */
+  lockedValue?: string;
+  /** Attribute value reserved for area selection without text editing. */
+  areaOnlyValue?: string;
+}
+
 export interface SourceLocation {
   file: string;
   line: number;
@@ -51,6 +64,8 @@ export interface ClientConfig {
   apiBaseUrl?: string;
   /** Template for clipboard output using {{variable}} interpolation */
   template?: string;
+  /** Policy used to exclude protected elements from targeting. */
+  editorPolicy?: EditorPolicyConfig;
 }
 
 /**
@@ -80,4 +95,6 @@ export interface AstroGrabOptions {
   toolbar?: boolean;
   /** Template for clipboard output using {{variable}} interpolation */
   template?: string;
+  /** Policy used to exclude protected elements from targeting. */
+  editorPolicy?: EditorPolicyConfig;
 }

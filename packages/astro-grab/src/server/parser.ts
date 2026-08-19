@@ -1,9 +1,17 @@
 import { parse } from '@astrojs/compiler';
 import type { ElementNode, Node } from '@astrojs/compiler/types';
 import { encodeSourceLocation, normalizePath } from '../shared/index.js';
+import {
+  resolveEditorPolicyConfig,
+  type ResolvedEditorPolicyConfig,
+} from '../shared/index.js';
 
 export interface InstrumentationResult {
   code: string;
+}
+
+export interface AstroGrabInstrumentationOptions {
+  editorPolicy?: ResolvedEditorPolicyConfig;
 }
 
 interface Injection {
@@ -15,10 +23,17 @@ export const instrumentAstroFile = async (
   code: string,
   filePath: string,
   root?: string,
+  options: AstroGrabInstrumentationOptions = {},
 ): Promise<InstrumentationResult> => {
   try {
     const ast = await parse(code, { position: true });
-    return instrumentAst(ast.ast, code, filePath, root);
+    return instrumentAst(
+      ast.ast,
+      code,
+      filePath,
+      root,
+      resolveEditorPolicyConfig(options.editorPolicy),
+    );
   } catch (error) {
     console.error(`[astro-grab] Failed to parse ${filePath}:`, error);
     return { code };
@@ -30,6 +45,7 @@ const instrumentAst = (
   code: string,
   filePath: string,
   root?: string,
+  editorPolicy: ResolvedEditorPolicyConfig = resolveEditorPolicyConfig(),
 ): InstrumentationResult => {
   const lineStartOffsets = getLineStartOffsets(code);
   const injections: Injection[] = [];
@@ -38,11 +54,15 @@ const instrumentAst = (
   const bodyNode = findBody(ast);
   const rootToWalk = bodyNode ?? ast;
 
-  walkAst(rootToWalk, (node) => {
+  walkAst(rootToWalk, (node, ancestors) => {
     const isInspectableElement =
       node.type === 'element' || node.type === 'custom-element';
 
     if (!isInspectableElement || !node.position) {
+      return;
+    }
+
+    if (isEditorPolicyLocked(node, ancestors, editorPolicy)) {
       return;
     }
 
@@ -161,12 +181,34 @@ const findBody = (node: Node): ElementNode | null => {
   return null;
 };
 
-const walkAst = (node: Node, callback: (node: Node) => void): void => {
-  callback(node);
+const walkAst = (
+  node: Node,
+  callback: (node: Node, ancestors: readonly Node[]) => void,
+  ancestors: readonly Node[] = [],
+): void => {
+  callback(node, ancestors);
 
   if (!('children' in node)) {
     return;
   }
 
-  node.children.forEach((childNode) => walkAst(childNode, callback));
+  node.children.forEach((childNode) =>
+    walkAst(childNode, callback, [...ancestors, node]),
+  );
 };
+
+const isEditorPolicyLocked = (
+  node: Node,
+  ancestors: readonly Node[],
+  editorPolicy: ResolvedEditorPolicyConfig,
+): boolean =>
+  [...ancestors, node].some((candidate) => {
+    if (!("attributes" in candidate)) {
+      return false;
+    }
+    return candidate.attributes.some(
+      (attribute) =>
+        attribute.name === editorPolicy.attribute &&
+        attribute.value === editorPolicy.lockedValue,
+    );
+  });

@@ -4,7 +4,9 @@ import { Overlay } from "./overlay.js";
 import { TargetingHandler } from "./targeting.js";
 import {
   DEFAULT_TEMPLATE,
+  resolveEditorPolicyConfig,
   type ClientConfig,
+  type ResolvedEditorPolicyConfig,
   formatShortcutDisplayLabel,
   normalizeTriggerKey,
 } from "../shared/index.js";
@@ -20,6 +22,7 @@ export class AstroGrab {
   private contextLines: number;
   private apiBaseUrl: string | undefined;
   private template: string;
+  private editorPolicy: ResolvedEditorPolicyConfig;
   private isEnabled: boolean;
   private isInitialized = false;
 
@@ -33,6 +36,7 @@ export class AstroGrab {
       debug = false,
       apiBaseUrl,
       template = DEFAULT_TEMPLATE,
+      editorPolicy: editorPolicyOptions,
     } = config;
     const hue = configHue;
 
@@ -43,6 +47,7 @@ export class AstroGrab {
     this.contextLines = contextLines;
     this.apiBaseUrl = apiBaseUrl;
     this.template = template;
+    this.editorPolicy = resolveEditorPolicyConfig(editorPolicyOptions);
 
     if (debug) {
       console.log("[astro-grab:constructor] config:", config);
@@ -62,6 +67,7 @@ export class AstroGrab {
       contextLines,
       apiBaseUrl,
       template,
+      this.editorPolicy,
     );
   }
 
@@ -167,6 +173,11 @@ export class AstroGrab {
       this.template = config.template;
       this.targeting.updateTemplate(config.template);
     }
+
+    if (config.editorPolicy) {
+      this.editorPolicy = resolveEditorPolicyConfig(config.editorPolicy);
+      this.targeting.updateEditorPolicy(this.editorPolicy);
+    }
   };
 
   private handleToggle = (event: Event): void => {
@@ -205,6 +216,10 @@ export class AstroGrab {
 
   getTemplate(): string {
     return this.template;
+  }
+
+  getCurrentTarget(): HTMLElement | null {
+    return this.targeting.getCurrentTarget();
   }
 }
 

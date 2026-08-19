@@ -4,9 +4,13 @@ import type { AstroGrabOptions } from "./shared/index.js";
 import { astroGrabToolbar } from "./toolbar/index.js";
 import {
   ASTRO_GRAB_TOOLBAR_STORAGE_KEY,
+  DEFAULT_EDITOR_POLICY_AREA_ONLY_VALUE,
+  DEFAULT_EDITOR_POLICY_ATTRIBUTE,
+  DEFAULT_EDITOR_POLICY_LOCKED_VALUE,
   DEFAULT_TRIGGER_KEY,
   formatShortcutDisplayLabel,
   normalizeTriggerKey,
+  type ResolvedEditorPolicyConfig,
 } from "./shared/index.js";
 
 export const astroGrab = (options: AstroGrabOptions = {}): AstroIntegration => {
@@ -20,8 +24,23 @@ export const astroGrab = (options: AstroGrabOptions = {}): AstroIntegration => {
     debug = false,
     toolbar = true,
     template,
+    editorPolicy: editorPolicyOptions = {},
   } = options;
   const key = normalizeTriggerKey(configKey);
+  const editorPolicy: ResolvedEditorPolicyConfig = {
+    attribute:
+      editorPolicyOptions.attribute ?? DEFAULT_EDITOR_POLICY_ATTRIBUTE,
+    lockedValue:
+      editorPolicyOptions.lockedValue ?? DEFAULT_EDITOR_POLICY_LOCKED_VALUE,
+    areaOnlyValue:
+      editorPolicyOptions.areaOnlyValue ?? DEFAULT_EDITOR_POLICY_AREA_ONLY_VALUE,
+  };
+
+  if (!/^data-[a-z0-9_.:-]+$/i.test(editorPolicy.attribute)) {
+    throw new Error(
+      `Invalid editor policy attribute "${editorPolicy.attribute}". Expected a data-* attribute name.`,
+    );
+  }
 
   return {
     name: "astro-grab",
@@ -46,7 +65,9 @@ export const astroGrab = (options: AstroGrabOptions = {}): AstroIntegration => {
 
         updateConfig({
           vite: {
-            plugins: [astroGrabVitePlugin({ hue, contextLines })],
+            plugins: [
+              astroGrabVitePlugin({ hue, contextLines, editorPolicy }),
+            ],
           },
         });
         logger.info("Vite plugin enabled");
@@ -85,6 +106,7 @@ const instance = new AstroGrab({
   hue: toolbarConfig.hue ?? ${hue},
   debug: ${debug},
   apiBaseUrl: ${apiBaseUrl ? JSON.stringify(apiBaseUrl) : undefined},
+  editorPolicy: ${JSON.stringify(editorPolicy)},
   ${templateConfig}
 });
 window.__astroGrabInstance__ = instance;

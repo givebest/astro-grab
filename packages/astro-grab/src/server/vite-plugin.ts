@@ -4,16 +4,22 @@ import { fileURLToPath } from "url";
 import { join, dirname } from "path";
 import { transformAstroFile } from "./transform.js";
 import { handleSnippetRequest } from "./snippet-handler.js";
+import type { ResolvedEditorPolicyConfig } from "../shared/index.js";
 
 export interface AstroGrabPluginOptions {
   contextLines?: number;
   hue?: number;
+  editorPolicy?: ResolvedEditorPolicyConfig;
 }
 
 export const astroGrabVitePlugin = (
   options: AstroGrabPluginOptions = {},
 ): Plugin => {
-  const { contextLines: defaultContextLines = 4, hue = 30 } = options;
+  const {
+    contextLines: defaultContextLines = 4,
+    hue = 30,
+    editorPolicy,
+  } = options;
   let root: string;
 
   return {
@@ -34,7 +40,12 @@ export const astroGrabVitePlugin = (
         const code = await readFile(id, "utf-8");
 
         // HACK: Don't use addWatchFile - causes race conditions with HMR
-        const result = await transformAstroFile(code, id, root);
+        const result = await transformAstroFile(
+          code,
+          id,
+          root,
+          editorPolicy,
+        );
 
         if (!result) {
           return null;

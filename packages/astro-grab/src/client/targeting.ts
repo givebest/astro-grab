@@ -1,7 +1,12 @@
 import { StateMachine } from "./state-machine.js";
 import { Overlay } from "./overlay.js";
 import { copyToClipboard, formatSnippet } from "./clipboard.js";
-import { DEFAULT_TEMPLATE, type SnippetResponse } from "../shared/index.js";
+import {
+  DEFAULT_TEMPLATE,
+  resolveEditorPolicyConfig,
+  type ResolvedEditorPolicyConfig,
+  type SnippetResponse,
+} from "../shared/index.js";
 
 interface MousePositionProvider {
   getMousePosition(): { x: number; y: number };
@@ -17,6 +22,7 @@ export class TargetingHandler {
   private contextLines: number;
   private apiBaseUrl: string | undefined;
   private template: string;
+  private editorPolicy: ResolvedEditorPolicyConfig;
   private currentTarget: HTMLElement | null = null;
   private currentMouseX = 0;
   private currentMouseY = 0;
@@ -29,12 +35,14 @@ export class TargetingHandler {
     contextLines: number = 4,
     apiBaseUrl?: string,
     template: string = DEFAULT_TEMPLATE,
+    editorPolicy: ResolvedEditorPolicyConfig = resolveEditorPolicyConfig(),
   ) {
     this.stateMachine = stateMachine;
     this.overlay = overlay;
     this.contextLines = contextLines;
     this.apiBaseUrl = apiBaseUrl;
     this.template = template;
+    this.editorPolicy = editorPolicy;
     this.trackMousePosition();
   }
 
@@ -276,7 +284,10 @@ export class TargetingHandler {
   private findElementWithSource(element: HTMLElement): HTMLElement | null {
     let current: HTMLElement | null = element;
 
-    while (current && current !== document.body) {
+    while (current) {
+      if (isEditorPolicyLocked(current, this.editorPolicy)) {
+        return null;
+      }
       if (current.hasAttribute("data-astro-grab")) {
         return current;
       }
@@ -297,4 +308,25 @@ export class TargetingHandler {
   updateTemplate(newTemplate: string): void {
     this.template = newTemplate;
   }
+
+  updateEditorPolicy(editorPolicy: ResolvedEditorPolicyConfig): void {
+    this.editorPolicy = editorPolicy;
+  }
 }
+
+export const isEditorPolicyLocked = (
+  element: Element,
+  editorPolicy: ResolvedEditorPolicyConfig,
+): boolean => {
+  let current: Element | null = element;
+  while (current) {
+    if (
+      current.getAttribute(editorPolicy.attribute) ===
+      editorPolicy.lockedValue
+    ) {
+      return true;
+    }
+    current = current.parentElement;
+  }
+  return false;
+};
